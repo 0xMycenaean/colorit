@@ -21,116 +21,220 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
   Enum: { input: any; output: any; }
   felt252: { input: any; output: any; }
-  u8: { input: any; output: any; }
   u32: { input: any; output: any; }
 };
 
-export type ModelUnion = Moves | Position;
-
-export type Moves = {
-  __typename?: 'Moves';
+export type Cell = {
+  __typename?: 'Cell';
+  color?: Maybe<Scalars['Enum']['output']>;
   entity?: Maybe<World__Entity>;
-  last_direction?: Maybe<Scalars['Enum']['output']>;
-  player?: Maybe<Scalars['ContractAddress']['output']>;
-  remaining?: Maybe<Scalars['u8']['output']>;
+  game_id?: Maybe<Scalars['u32']['output']>;
+  position?: Maybe<Cell_Vec2>;
 };
 
-export type MovesConnection = {
-  __typename?: 'MovesConnection';
-  edges?: Maybe<Array<Maybe<MovesEdge>>>;
-  total_count: Scalars['Int']['output'];
+export type CellConnection = {
+  __typename?: 'CellConnection';
+  edges?: Maybe<Array<Maybe<CellEdge>>>;
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
-export type MovesEdge = {
-  __typename?: 'MovesEdge';
+export type CellEdge = {
+  __typename?: 'CellEdge';
   cursor?: Maybe<Scalars['Cursor']['output']>;
-  node?: Maybe<Moves>;
+  node?: Maybe<Cell>;
 };
 
-export type MovesOrder = {
+export type CellOrder = {
   direction: OrderDirection;
-  field: MovesOrderField;
+  field: CellOrderField;
 };
 
-export enum MovesOrderField {
-  LastDirection = 'LAST_DIRECTION',
-  Player = 'PLAYER',
-  Remaining = 'REMAINING'
+export enum CellOrderField {
+  Color = 'COLOR',
+  GameId = 'GAME_ID',
+  Position = 'POSITION'
 }
 
-export type MovesWhereInput = {
-  last_direction?: InputMaybe<Scalars['Enum']['input']>;
-  player?: InputMaybe<Scalars['ContractAddress']['input']>;
-  playerEQ?: InputMaybe<Scalars['ContractAddress']['input']>;
-  playerGT?: InputMaybe<Scalars['ContractAddress']['input']>;
-  playerGTE?: InputMaybe<Scalars['ContractAddress']['input']>;
-  playerLT?: InputMaybe<Scalars['ContractAddress']['input']>;
-  playerLTE?: InputMaybe<Scalars['ContractAddress']['input']>;
-  playerNEQ?: InputMaybe<Scalars['ContractAddress']['input']>;
-  remaining?: InputMaybe<Scalars['u8']['input']>;
-  remainingEQ?: InputMaybe<Scalars['u8']['input']>;
-  remainingGT?: InputMaybe<Scalars['u8']['input']>;
-  remainingGTE?: InputMaybe<Scalars['u8']['input']>;
-  remainingLT?: InputMaybe<Scalars['u8']['input']>;
-  remainingLTE?: InputMaybe<Scalars['u8']['input']>;
-  remainingNEQ?: InputMaybe<Scalars['u8']['input']>;
+export type CellWhereInput = {
+  color?: InputMaybe<Scalars['Enum']['input']>;
+  game_id?: InputMaybe<Scalars['u32']['input']>;
+  game_idEQ?: InputMaybe<Scalars['u32']['input']>;
+  game_idGT?: InputMaybe<Scalars['u32']['input']>;
+  game_idGTE?: InputMaybe<Scalars['u32']['input']>;
+  game_idLT?: InputMaybe<Scalars['u32']['input']>;
+  game_idLTE?: InputMaybe<Scalars['u32']['input']>;
+  game_idNEQ?: InputMaybe<Scalars['u32']['input']>;
 };
+
+export type Cell_Vec2 = {
+  __typename?: 'Cell_Vec2';
+  x?: Maybe<Scalars['u32']['output']>;
+  y?: Maybe<Scalars['u32']['output']>;
+};
+
+export type Game = {
+  __typename?: 'Game';
+  bottom?: Maybe<Scalars['ContractAddress']['output']>;
+  entity?: Maybe<World__Entity>;
+  game_id?: Maybe<Scalars['u32']['output']>;
+  top?: Maybe<Scalars['ContractAddress']['output']>;
+  winner?: Maybe<Scalars['Enum']['output']>;
+};
+
+export type GameConnection = {
+  __typename?: 'GameConnection';
+  edges?: Maybe<Array<Maybe<GameEdge>>>;
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
+};
+
+export type GameEdge = {
+  __typename?: 'GameEdge';
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  node?: Maybe<Game>;
+};
+
+export type GameOrder = {
+  direction: OrderDirection;
+  field: GameOrderField;
+};
+
+export enum GameOrderField {
+  Bottom = 'BOTTOM',
+  GameId = 'GAME_ID',
+  Top = 'TOP',
+  Winner = 'WINNER'
+}
+
+export type GameTurn = {
+  __typename?: 'GameTurn';
+  entity?: Maybe<World__Entity>;
+  game_id?: Maybe<Scalars['u32']['output']>;
+  player_starting_position?: Maybe<Scalars['Enum']['output']>;
+};
+
+export type GameTurnConnection = {
+  __typename?: 'GameTurnConnection';
+  edges?: Maybe<Array<Maybe<GameTurnEdge>>>;
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
+};
+
+export type GameTurnEdge = {
+  __typename?: 'GameTurnEdge';
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  node?: Maybe<GameTurn>;
+};
+
+export type GameTurnOrder = {
+  direction: OrderDirection;
+  field: GameTurnOrderField;
+};
+
+export enum GameTurnOrderField {
+  GameId = 'GAME_ID',
+  PlayerStartingPosition = 'PLAYER_STARTING_POSITION'
+}
+
+export type GameTurnWhereInput = {
+  game_id?: InputMaybe<Scalars['u32']['input']>;
+  game_idEQ?: InputMaybe<Scalars['u32']['input']>;
+  game_idGT?: InputMaybe<Scalars['u32']['input']>;
+  game_idGTE?: InputMaybe<Scalars['u32']['input']>;
+  game_idLT?: InputMaybe<Scalars['u32']['input']>;
+  game_idLTE?: InputMaybe<Scalars['u32']['input']>;
+  game_idNEQ?: InputMaybe<Scalars['u32']['input']>;
+  player_starting_position?: InputMaybe<Scalars['Enum']['input']>;
+};
+
+export type GameWhereInput = {
+  bottom?: InputMaybe<Scalars['ContractAddress']['input']>;
+  bottomEQ?: InputMaybe<Scalars['ContractAddress']['input']>;
+  bottomGT?: InputMaybe<Scalars['ContractAddress']['input']>;
+  bottomGTE?: InputMaybe<Scalars['ContractAddress']['input']>;
+  bottomLT?: InputMaybe<Scalars['ContractAddress']['input']>;
+  bottomLTE?: InputMaybe<Scalars['ContractAddress']['input']>;
+  bottomNEQ?: InputMaybe<Scalars['ContractAddress']['input']>;
+  game_id?: InputMaybe<Scalars['u32']['input']>;
+  game_idEQ?: InputMaybe<Scalars['u32']['input']>;
+  game_idGT?: InputMaybe<Scalars['u32']['input']>;
+  game_idGTE?: InputMaybe<Scalars['u32']['input']>;
+  game_idLT?: InputMaybe<Scalars['u32']['input']>;
+  game_idLTE?: InputMaybe<Scalars['u32']['input']>;
+  game_idNEQ?: InputMaybe<Scalars['u32']['input']>;
+  top?: InputMaybe<Scalars['ContractAddress']['input']>;
+  topEQ?: InputMaybe<Scalars['ContractAddress']['input']>;
+  topGT?: InputMaybe<Scalars['ContractAddress']['input']>;
+  topGTE?: InputMaybe<Scalars['ContractAddress']['input']>;
+  topLT?: InputMaybe<Scalars['ContractAddress']['input']>;
+  topLTE?: InputMaybe<Scalars['ContractAddress']['input']>;
+  topNEQ?: InputMaybe<Scalars['ContractAddress']['input']>;
+  winner?: InputMaybe<Scalars['Enum']['input']>;
+};
+
+export type ModelUnion = Cell | Game | GameTurn | Player;
 
 export enum OrderDirection {
   Asc = 'ASC',
   Desc = 'DESC'
 }
 
-export type Position = {
-  __typename?: 'Position';
+export type Player = {
+  __typename?: 'Player';
+  address?: Maybe<Scalars['ContractAddress']['output']>;
   entity?: Maybe<World__Entity>;
-  player?: Maybe<Scalars['ContractAddress']['output']>;
-  vec?: Maybe<Position_Vec2>;
+  game_id?: Maybe<Scalars['u32']['output']>;
+  startingPostion?: Maybe<Scalars['Enum']['output']>;
 };
 
-export type PositionConnection = {
-  __typename?: 'PositionConnection';
-  edges?: Maybe<Array<Maybe<PositionEdge>>>;
-  total_count: Scalars['Int']['output'];
+export type PlayerConnection = {
+  __typename?: 'PlayerConnection';
+  edges?: Maybe<Array<Maybe<PlayerEdge>>>;
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
-export type PositionEdge = {
-  __typename?: 'PositionEdge';
+export type PlayerEdge = {
+  __typename?: 'PlayerEdge';
   cursor?: Maybe<Scalars['Cursor']['output']>;
-  node?: Maybe<Position>;
+  node?: Maybe<Player>;
 };
 
-export type PositionOrder = {
+export type PlayerOrder = {
   direction: OrderDirection;
-  field: PositionOrderField;
+  field: PlayerOrderField;
 };
 
-export enum PositionOrderField {
-  Player = 'PLAYER',
-  Vec = 'VEC'
+export enum PlayerOrderField {
+  Address = 'ADDRESS',
+  GameId = 'GAME_ID',
+  Startingpostion = 'STARTINGPOSTION'
 }
 
-export type PositionWhereInput = {
-  player?: InputMaybe<Scalars['ContractAddress']['input']>;
-  playerEQ?: InputMaybe<Scalars['ContractAddress']['input']>;
-  playerGT?: InputMaybe<Scalars['ContractAddress']['input']>;
-  playerGTE?: InputMaybe<Scalars['ContractAddress']['input']>;
-  playerLT?: InputMaybe<Scalars['ContractAddress']['input']>;
-  playerLTE?: InputMaybe<Scalars['ContractAddress']['input']>;
-  playerNEQ?: InputMaybe<Scalars['ContractAddress']['input']>;
-};
-
-export type Position_Vec2 = {
-  __typename?: 'Position_Vec2';
-  x?: Maybe<Scalars['u32']['output']>;
-  y?: Maybe<Scalars['u32']['output']>;
+export type PlayerWhereInput = {
+  address?: InputMaybe<Scalars['ContractAddress']['input']>;
+  addressEQ?: InputMaybe<Scalars['ContractAddress']['input']>;
+  addressGT?: InputMaybe<Scalars['ContractAddress']['input']>;
+  addressGTE?: InputMaybe<Scalars['ContractAddress']['input']>;
+  addressLT?: InputMaybe<Scalars['ContractAddress']['input']>;
+  addressLTE?: InputMaybe<Scalars['ContractAddress']['input']>;
+  addressNEQ?: InputMaybe<Scalars['ContractAddress']['input']>;
+  game_id?: InputMaybe<Scalars['u32']['input']>;
+  game_idEQ?: InputMaybe<Scalars['u32']['input']>;
+  game_idGT?: InputMaybe<Scalars['u32']['input']>;
+  game_idGTE?: InputMaybe<Scalars['u32']['input']>;
+  game_idLT?: InputMaybe<Scalars['u32']['input']>;
+  game_idLTE?: InputMaybe<Scalars['u32']['input']>;
+  game_idNEQ?: InputMaybe<Scalars['u32']['input']>;
+  startingPostion?: InputMaybe<Scalars['Enum']['input']>;
 };
 
 export type World__Content = {
   __typename?: 'World__Content';
-  cover_uri?: Maybe<Scalars['String']['output']>;
+  coverUri?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
-  icon_uri?: Maybe<Scalars['String']['output']>;
+  iconUri?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   socials?: Maybe<Array<Maybe<World__Social>>>;
   website?: Maybe<Scalars['String']['output']>;
@@ -138,19 +242,19 @@ export type World__Content = {
 
 export type World__Entity = {
   __typename?: 'World__Entity';
-  created_at?: Maybe<Scalars['DateTime']['output']>;
-  event_id?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  eventId?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
   keys?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  model_names?: Maybe<Scalars['String']['output']>;
   models?: Maybe<Array<Maybe<ModelUnion>>>;
-  updated_at?: Maybe<Scalars['DateTime']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type World__EntityConnection = {
   __typename?: 'World__EntityConnection';
   edges?: Maybe<Array<Maybe<World__EntityEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type World__EntityEdge = {
@@ -161,17 +265,18 @@ export type World__EntityEdge = {
 
 export type World__Event = {
   __typename?: 'World__Event';
-  created_at?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   data?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   id?: Maybe<Scalars['ID']['output']>;
   keys?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  transaction_hash?: Maybe<Scalars['String']['output']>;
+  transactionHash?: Maybe<Scalars['String']['output']>;
 };
 
 export type World__EventConnection = {
   __typename?: 'World__EventConnection';
   edges?: Maybe<Array<Maybe<World__EventEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type World__EventEdge = {
@@ -183,18 +288,20 @@ export type World__EventEdge = {
 export type World__Metadata = {
   __typename?: 'World__Metadata';
   content?: Maybe<World__Content>;
-  cover_img?: Maybe<Scalars['String']['output']>;
-  created_at?: Maybe<Scalars['DateTime']['output']>;
-  icon_img?: Maybe<Scalars['String']['output']>;
+  coverImg?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  iconImg?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
-  updated_at?: Maybe<Scalars['DateTime']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
   uri?: Maybe<Scalars['String']['output']>;
+  worldAddress: Scalars['String']['output'];
 };
 
 export type World__MetadataConnection = {
   __typename?: 'World__MetadataConnection';
   edges?: Maybe<Array<Maybe<World__MetadataEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type World__MetadataEdge = {
@@ -205,17 +312,18 @@ export type World__MetadataEdge = {
 
 export type World__Model = {
   __typename?: 'World__Model';
-  class_hash?: Maybe<Scalars['felt252']['output']>;
-  created_at?: Maybe<Scalars['DateTime']['output']>;
+  classHash?: Maybe<Scalars['felt252']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
   name?: Maybe<Scalars['String']['output']>;
-  transaction_hash?: Maybe<Scalars['felt252']['output']>;
+  transactionHash?: Maybe<Scalars['felt252']['output']>;
 };
 
 export type World__ModelConnection = {
   __typename?: 'World__ModelConnection';
   edges?: Maybe<Array<Maybe<World__ModelEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type World__ModelEdge = {
@@ -224,18 +332,40 @@ export type World__ModelEdge = {
   node?: Maybe<World__Model>;
 };
 
+export type World__PageInfo = {
+  __typename?: 'World__PageInfo';
+  endCursor?: Maybe<Scalars['Cursor']['output']>;
+  hasNextPage?: Maybe<Scalars['Boolean']['output']>;
+  hasPreviousPage?: Maybe<Scalars['Boolean']['output']>;
+  startCursor?: Maybe<Scalars['Cursor']['output']>;
+};
+
 export type World__Query = {
   __typename?: 'World__Query';
+  cellModels?: Maybe<CellConnection>;
   entities?: Maybe<World__EntityConnection>;
   entity: World__Entity;
   events?: Maybe<World__EventConnection>;
+  gameModels?: Maybe<GameConnection>;
+  gameturnModels?: Maybe<GameTurnConnection>;
   metadatas?: Maybe<World__MetadataConnection>;
   model: World__Model;
   models?: Maybe<World__ModelConnection>;
-  movesModels?: Maybe<MovesConnection>;
-  positionModels?: Maybe<PositionConnection>;
+  playerModels?: Maybe<PlayerConnection>;
   transaction: World__Transaction;
   transactions?: Maybe<World__TransactionConnection>;
+};
+
+
+export type World__QueryCellModelsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<CellOrder>;
+  where?: InputMaybe<CellWhereInput>;
 };
 
 
@@ -266,6 +396,30 @@ export type World__QueryEventsArgs = {
 };
 
 
+export type World__QueryGameModelsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<GameOrder>;
+  where?: InputMaybe<GameWhereInput>;
+};
+
+
+export type World__QueryGameturnModelsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<GameTurnOrder>;
+  where?: InputMaybe<GameTurnWhereInput>;
+};
+
+
 export type World__QueryMetadatasArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -291,27 +445,15 @@ export type World__QueryModelsArgs = {
 };
 
 
-export type World__QueryMovesModelsArgs = {
+export type World__QueryPlayerModelsArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  order?: InputMaybe<MovesOrder>;
-  where?: InputMaybe<MovesWhereInput>;
-};
-
-
-export type World__QueryPositionModelsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order?: InputMaybe<PositionOrder>;
-  where?: InputMaybe<PositionWhereInput>;
+  order?: InputMaybe<PlayerOrder>;
+  where?: InputMaybe<PlayerWhereInput>;
 };
 
 
@@ -338,12 +480,18 @@ export type World__Social = {
 export type World__Subscription = {
   __typename?: 'World__Subscription';
   entityUpdated: World__Entity;
+  eventEmitted: World__Event;
   modelRegistered: World__Model;
 };
 
 
 export type World__SubscriptionEntityUpdatedArgs = {
   id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type World__SubscriptionEventEmittedArgs = {
+  keys?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 
@@ -354,19 +502,20 @@ export type World__SubscriptionModelRegisteredArgs = {
 export type World__Transaction = {
   __typename?: 'World__Transaction';
   calldata?: Maybe<Array<Maybe<Scalars['felt252']['output']>>>;
-  created_at?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
-  max_fee?: Maybe<Scalars['felt252']['output']>;
+  maxFee?: Maybe<Scalars['felt252']['output']>;
   nonce?: Maybe<Scalars['felt252']['output']>;
-  sender_address?: Maybe<Scalars['felt252']['output']>;
+  senderAddress?: Maybe<Scalars['felt252']['output']>;
   signature?: Maybe<Array<Maybe<Scalars['felt252']['output']>>>;
-  transaction_hash?: Maybe<Scalars['felt252']['output']>;
+  transactionHash?: Maybe<Scalars['felt252']['output']>;
 };
 
 export type World__TransactionConnection = {
   __typename?: 'World__TransactionConnection';
   edges?: Maybe<Array<Maybe<World__TransactionEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type World__TransactionEdge = {
@@ -378,26 +527,31 @@ export type World__TransactionEdge = {
 export type GetEntitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetEntitiesQuery = { __typename?: 'World__Query', entities?: { __typename?: 'World__EntityConnection', edges?: Array<{ __typename?: 'World__EntityEdge', node?: { __typename?: 'World__Entity', keys?: Array<string | null> | null, models?: Array<{ __typename: 'Moves', remaining?: any | null, last_direction?: any | null } | { __typename: 'Position', vec?: { __typename?: 'Position_Vec2', x?: any | null, y?: any | null } | null } | null> | null } | null } | null> | null } | null };
+export type GetEntitiesQuery = { __typename?: 'World__Query', entities?: { __typename?: 'World__EntityConnection', edges?: Array<{ __typename?: 'World__EntityEdge', node?: { __typename?: 'World__Entity', keys?: Array<string | null> | null, models?: Array<{ __typename: 'Cell', game_id?: any | null, color?: any | null, position?: { __typename?: 'Cell_Vec2', x?: any | null, y?: any | null } | null } | { __typename: 'Game', game_id?: any | null } | { __typename: 'GameTurn' } | { __typename: 'Player', game_id?: any | null, address?: any | null } | null> | null } | null } | null> | null } | null };
 
 
 export const GetEntitiesDocument = gql`
     query getEntities {
-  entities(keys: ["*"]) {
+  entities(keys: ["*"], limit: 10000) {
     edges {
       node {
         keys
         models {
           __typename
-          ... on Moves {
-            remaining
-            last_direction
+          ... on Game {
+            game_id
           }
-          ... on Position {
-            vec {
+          ... on Cell {
+            game_id
+            position {
               x
               y
             }
+            color
+          }
+          ... on Player {
+            game_id
+            address
           }
         }
       }

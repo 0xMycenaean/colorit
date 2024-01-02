@@ -2,36 +2,95 @@
 
 import { defineComponent, Type as RecsType, World } from "@latticexyz/recs";
 
+// set!(
+//   world,
+//   (
+//       Player {
+//           game_id, address: top_address, startingPostion: StartingPosition::Top
+//       },
+//       Player {
+//           game_id, address: bottom_address, startingPostion: StartingPosition::Bottom
+//       },
+//   )
+// );
+
+// // set Game and GameTurn
+// set!(
+//   world,
+//   (
+//       Game {
+//           game_id, top: top_address, bottom: bottom_address, winner: StartingPosition::None,
+//       },
+//       GameTurn { game_id, player_starting_position: StartingPosition::Top },
+//   )
+// );
+
 export function defineContractComponents(world: World) {
   return {
-    Moves: (() => {
+    Player: (() => {
       return defineComponent(
         world,
         {
-          player: RecsType.String,
-          remaining: RecsType.Number,
-          last_direction: RecsType.Number,
+          game_id: RecsType.String,
+          address: RecsType.String,
+          //@ts-ignore
+          player_starting_position: RecsType.String,
         },
         {
           metadata: {
-            name: "Moves",
-            types: ["Direction"],
+            name: "Player",
+            types: ["u32", "contractaddress", "enum"],
           },
         }
       );
     })(),
-    Position: (() => {
+    Cell: (() => {
       return defineComponent(
         world,
         {
-          player: RecsType.String,
+          game_id: RecsType.String,
           //@ts-ignore
-          vec: { x: RecsType.Number, y: RecsType.Number },
+          position: { x: RecsType.Number, y: RecsType.Number },
+          color: RecsType.String,
         },
         {
           metadata: {
-            name: "Position",
-            types: ["Vec2"],
+            name: "Cell",
+            types: ["u32", "struct", "enum"],
+            customTypes: ["Vec2", "Color"],
+          },
+        }
+      );
+    })(),
+    Game: (() => {
+      return defineComponent(
+        world,
+        {
+          game_id: RecsType.String,
+          winner: RecsType.String,
+          top: RecsType.String,
+          bottom: RecsType.String,
+        },
+        {
+          metadata: {
+            name: "Game",
+            types: ["u32", "enum", "contractaddress", "contractaddress"],
+          },
+        }
+      );
+    })(),
+    GameTurn: (() => {
+      return defineComponent(
+        world,
+        {
+          game_id: RecsType.String,
+          //@ts-ignore
+          player_starting_position: RecsType.String,
+        },
+        {
+          metadata: {
+            name: "GameTurn",
+            types: ["u32", "enum"],
           },
         }
       );

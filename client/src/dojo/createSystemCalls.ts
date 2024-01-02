@@ -10,82 +10,69 @@ export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
 export function createSystemCalls(
   { execute, contractComponents }: SetupNetworkResult,
-  { Position, Moves }: ClientComponents
+  { Game, Player }: ClientComponents
 ) {
   const spawn = async (signer: Account) => {
     const entityId = signer.address.toString() as Entity;
 
-    const positionId = uuid();
-    Position.addOverride(positionId, {
-      entity: entityId,
-      value: { vec: { x: 10, y: 10 } },
+    // const cellId = uuid();
+    // Cell.addOverride(cellId, {
+    //   entity: entityId,
+    //   value: { vec: { x: 10, y: 10 } },
+    // });
+
+    // const gameId = uuid();
+    // Game.addOverride(gameId, {
+    //   entity: entityId,
+    //   value: { remaining: 10 },
+    // });
+
+    // try {
+    console.log(signer.address, "signer.address");
+    const { transaction_hash } = await execute(
+      signer,
+      "colorit::actions::actions",
+      "spawn",
+      [signer.address, signer.address]
+    );
+
+    const awaitedTx = await signer.waitForTransaction(transaction_hash, {
+      retryInterval: 100,
     });
 
-    const movesId = uuid();
-    Moves.addOverride(movesId, {
-      entity: entityId,
-      value: { remaining: 10 },
-    });
+    console.log(awaitedTx, "awaitedTxawaitedTx");
+    const events = getEvents(awaitedTx);
 
-    try {
-      const tx = await execute(signer, "actions", "spawn", []);
-      setComponentsFromEvents(
-        contractComponents,
-        getEvents(
-          await signer.waitForTransaction(tx.transaction_hash, {
-            retryInterval: 100,
-          })
-        )
-      );
-    } catch (e) {
-      console.log(e);
-      Position.removeOverride(positionId);
-      Moves.removeOverride(movesId);
-    } finally {
-      Position.removeOverride(positionId);
-      Moves.removeOverride(movesId);
-    }
+    console.log(events, "eventseventsevents");
+
+    setComponentsFromEvents(contractComponents, events);
+
+    // } catch (e) {
+    //   console.log(e);
+    //   Position.removeOverride(positionId);
+    //   Moves.removeOverride(movesId);
+    // } finally {
+    //   Position.removeOverride(positionId);
+    //   Moves.removeOverride(movesId);
+    // }
   };
 
-  const move = async (signer: Account, direction: Direction) => {
+  const move = async (signer: Account, colorTo: string, gameId: string) => {
     const entityId = signer.address.toString() as Entity;
+    console.log(colorTo.toLocaleUpperCase(), gameId, "ARGS");
 
-    const positionId = uuid();
-    Position.addOverride(positionId, {
-      entity: entityId,
-      value: updatePositionWithDirection(
-        direction,
-        // currently recs does not support nested values so we use any here
-        getComponentValue(Position, entityId) as any
-      ),
-    });
-
-    const movesId = uuid();
-    Moves.addOverride(movesId, {
-      entity: entityId,
-      value: {
-        remaining: (getComponentValue(Moves, entityId)?.remaining || 0) - 1,
-      },
-    });
-
-    try {
-      const tx = await execute(signer, "actions", "move", [direction]);
-      setComponentsFromEvents(
-        contractComponents,
-        getEvents(
-          await signer.waitForTransaction(tx.transaction_hash, {
-            retryInterval: 100,
-          })
-        )
-      );
-    } catch (e) {
-      console.log(e);
-      Position.removeOverride(positionId);
-      Moves.removeOverride(movesId);
-    } finally {
-      Position.removeOverride(positionId);
-      Moves.removeOverride(movesId);
-    }
+    const tx = await execute(signer, "colorit::actions::actions", "color_it", [
+      2,
+      Number(gameId),
+    ]);
+    setComponentsFromEvents(
+      contractComponents,
+      getEvents(
+        await signer.waitForTransaction(tx.transaction_hash, {
+          retryInterval: 100,
+        })
+      )
+    );
   };
 
   return {

@@ -1,9 +1,16 @@
 import { useDojo } from "./DojoContext";
 import { useComponentValue } from "@latticexyz/react";
 import { Entity } from "@latticexyz/recs";
-import { useEffect } from "react";
-import { setComponentsFromGraphQLEntities } from "@dojoengine/utils";
+import { useEffect, useState } from "react";
+import {
+  getEntityIdFromKeys,
+  setComponentsFromGraphQLEntities,
+} from "@dojoengine/utils";
 import { Direction } from "./utils";
+import Game from "./components/Game";
+
+const WIDTH = 12;
+const HEIGHT = 12;
 
 function App() {
   const {
@@ -19,15 +26,17 @@ function App() {
   const { getEntities } = graphSdk();
 
   // entity id - this example uses the account address as the entity id
-  const entityId = account.address.toString();
-
-  // get current component values
-  const position = useComponentValue(components.Position, entityId as Entity);
-  const moves = useComponentValue(components.Moves, entityId as Entity);
+  const accountIdEntity = getEntityIdFromKeys([
+    BigInt(account.address.toString()),
+  ]);
+  const game_id = useComponentValue(
+    components.Player,
+    accountIdEntity
+  )?.game_id;
 
   // use graphql to current state data
   useEffect(() => {
-    if (!entityId) return;
+    if (!accountIdEntity) return;
 
     const fetchData = async () => {
       try {
@@ -44,7 +53,7 @@ function App() {
     };
 
     fetchData();
-  }, [entityId, contractComponents]);
+  }, [accountIdEntity, contractComponents]);
 
   return (
     <>
@@ -55,40 +64,17 @@ function App() {
         <button onClick={clear}>clear burners</button>
       </div>
 
-      <div className="card">
-        select signer:{" "}
-        <select onChange={(e) => select(e.target.value)}>
-          {list().map((account, index) => {
-            return (
-              <option value={account.address} key={index}>
-                {account.address}
-              </option>
-            );
-          })}
-          i
-        </select>
-      </div>
+      {game_id && (
+        <Game
+          account={account}
+          move={move}
+          game_id={game_id}
+          components={components}
+        />
+      )}
+      <div className="card">select signer: s</div>
       <div className="card">
         <button onClick={() => spawn(account)}>Spawn</button>
-        <div>
-          Moves Left: {moves ? `${moves["remaining"]}` : "Need to Spawn"}
-        </div>
-        <div>
-          Position:{" "}
-          {position
-            ? `${position.vec["x"]}, ${position.vec["y"]}`
-            : "Need to Spawn"}
-        </div>
-      </div>
-      <div className="card">
-        <button onClick={() => move(account, Direction.Up)}>Move Up</button>{" "}
-        <br />
-        <button onClick={() => move(account, Direction.Left)}>Move Left</button>
-        <button onClick={() => move(account, Direction.Right)}>
-          Move Right
-        </button>{" "}
-        <br />
-        <button onClick={() => move(account, Direction.Down)}>Move Down</button>
       </div>
     </>
   );

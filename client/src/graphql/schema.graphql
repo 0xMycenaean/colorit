@@ -1,19 +1,24 @@
 query getEntities {
-  entities(keys: ["*"]) {
+  entities(keys: ["*"], limit: 10000) {
     edges {
       node {
         keys
         models {
           __typename
-          ... on Moves {
-            remaining
-            last_direction
+          ... on Game {
+            game_id
           }
-          ... on Position {
-            vec {
+          ... on Cell {
+            game_id
+            position {
               x
               y
             }
+            color
+          }
+          ... on Player {
+            game_id
+            address
           }
         }
       }

@@ -38,7 +38,6 @@ export const DojoProvider = ({ children, value }: DojoProviderProps) => {
       }),
     []
   );
-
   const masterAddress = import.meta.env.VITE_PUBLIC_MASTER_ADDRESS;
   const privateKey = import.meta.env.VITE_PUBLIC_MASTER_PRIVATE_KEY;
   const accountClassHash = import.meta.env.VITE_PUBLIC_ACCOUNT_CLASS_HASH;
@@ -83,10 +82,26 @@ export const useDojo = () => {
       get,
       select,
       clear,
-      account: account ?? contextValue.masterAccount,
+      account: contextValue.masterAccount,
       isDeploying,
       copyToClipboard,
       applyFromClipboard,
     },
   };
 };
+
+/**
+ * 
+ * 0x07b3e05f48f0c69e4a65ce5e076a66271a527aff2c34ce1083ec6e1526997a69
+
+| Contract        | Account Contract
+| Class Hash      | 0x04d07e40e93398ed3c76981e72dd1fd22557a78ce36c0515f679e27f0bb5bc5f
+    
+        
+PREFUNDED ACCOUNTS
+==================
+
+| Account address |  0x517ececd29116499f4a1b64b094da79ba08dfd54a3edaa316134c41f8160973 
+| Private key     |  0x1800000000300000180000000000030000000000003006001800006600
+| Public key      |  0x2b191c2f3ecf685a91af7cf72a43e7b90e2e41220175de5c4f7498981b10053
+ */
