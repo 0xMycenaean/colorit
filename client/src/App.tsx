@@ -6,11 +6,7 @@ import {
   getEntityIdFromKeys,
   setComponentsFromGraphQLEntities,
 } from "@dojoengine/utils";
-import { Direction } from "./utils";
 import Game from "./components/Game";
-
-const WIDTH = 12;
-const HEIGHT = 12;
 
 function App() {
   const {
@@ -57,12 +53,7 @@ function App() {
 
   return (
     <>
-      <div>
-        <button onClick={create}>
-          {isDeploying ? "deploying burner" : "create burner"}
-        </button>
-        <button onClick={clear}>clear burners</button>
-      </div>
+      <h1>colorit</h1>
 
       {game_id && (
         <Game
@@ -72,7 +63,6 @@ function App() {
           components={components}
         />
       )}
-      <div className="card">select signer: s</div>
       <div className="card">
         <button onClick={() => spawn(account)}>Spawn</button>
       </div>
